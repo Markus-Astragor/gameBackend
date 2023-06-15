@@ -14,7 +14,9 @@
   "author": "Markus-Astragor",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
+    "mongodb": "^5.6.0",
     "mongoose": "^7.3.0"
   }
 }
