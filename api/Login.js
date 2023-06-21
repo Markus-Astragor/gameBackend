@@ -4,7 +4,6 @@ const router = Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const secretKey = process.env.SECRET_KEY;
-const saltRounds = 10;
 
 router.post('/login', async (req, res) => {
   const { userName, password } = req.body;
@@ -15,11 +14,7 @@ router.post('/login', async (req, res) => {
   }
   else {
     try {
-      // const hashedPassword = await bcrypt.hash(password, saltRounds);
       const matchedPassword = await bcrypt.compare(password, user.password);
-      console.log(matchedPassword);
-      // console.log('password' , hashedPassword);
-      // console.log('user.password', user.password);
       if (!matchedPassword) {
         return res.status(404).send('Please check userName or password')
       }
