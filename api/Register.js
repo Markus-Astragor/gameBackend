@@ -10,20 +10,25 @@ const secretKey = process.env.SECRET_KEY;
 router.post('/register', async (req, res) => {
   const { userName, password } = req.body;
   const check = await Users.findOne({ userName: userName });
+
   if (check) {
-   return res.status(400).send('Account with this username exists');
+    return res.status(400).send('Account with this username exists');
   }
-  else {
-    if(password.length < 8){
-      return res.status(404).send('Password should be more than 8 symbols')
-    }
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const docs = new Users({ userName: userName, password: hashedPassword });
-    await docs.save();
-    //generate jwt token
-    const token = jwt.sign({ userId: docs._id }, secretKey)
-    res.status(200).json({ token })
+
+  if (userName.length < 2 || userName.length > 16) {
+    return res.status(404).send('userName should have more than 2 symbols and less than 16')
   }
+
+  if (password.length < 8 || password.length > 16) {
+    return res.status(404).send('Password should be more than 8 symbols and less than 16')
+  }
+
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  const doc = new Users({ userName: userName, password: hashedPassword });
+  await doc.save();
+
+  const token = jwt.sign({ userId: doc._id }, secretKey)
+  res.status(200).json({ token })
 
 
 })
