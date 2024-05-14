@@ -7,6 +7,7 @@ const MongoDbURL = process.env.MONGO_DB_URL
 const mongoDbConnect = require('./setup/mongoose');
 const Register = require('./api/Register');
 const Login = require('./api/Login');
+const Default = require('./api/Default');
 const cors = require('cors');
 
 app.use((req, res, next) => {
@@ -28,6 +29,7 @@ async function Setup() {
   await mongoDbConnect.Start(MongoDbURL)
   app.use(Register.router);
   app.use(Login.router);
+  app.use(Default.router)
 
   app.listen(PORT, (req, res) => {
     console.log(`Server was started on ${PORT}`);

@@ -5,4 +5,4 @@ router.get('/', (req, res) => {
   res.status(200).json({ default: 'my successs' });
 })
 
-module.exports = router;
+module.exports = { router };
